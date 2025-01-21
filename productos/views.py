@@ -21,3 +21,16 @@ def agregar_producto(request):
         Producto.objects.create(nombre=nombre, precio=precio, cantidad=cantidad) 
         return redirect('productos:listar_productos')
     return render(request, "agregar.html")
+
+def eliminar_producto(request):
+    if request.method == "POST":
+        nombre = request.POST.get("nombre")
+        try:
+            producto = Producto.objects.get(nombre=nombre)
+            producto.delete()
+        except Producto.DoesNotExist:
+            pass
+        
+        return redirect('productos:listar_productos')
+
+    return render(request, "eliminar.html")  
